@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to App...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        button {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Redirecting to App...</h2>
+        <p>Please wait...</p>
+        <button id="manualButton" style="display:none;">Open App Manually</button>
+    </div>
+
+    <script>
+        // Get all URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        let expoDeepLink = 'exp://192.168.1.7:8081/--/auth/callback';
+        
+        if (urlParams.toString()) {
+            expoDeepLink += '?' + urlParams.toString();
+        }
+        
+        // Redirect to the app
+        window.location.href = expoDeepLink;
+        
+        setTimeout(() => {
+            const manualBtn = document.getElementById('manualButton');
+            manualBtn.style.display = 'block';
+            manualBtn.onclick = () => {
+                window.location.href = expoDeepLink;
+            };
+        }, 2000);
+    </script>
+</body>
+</html>
