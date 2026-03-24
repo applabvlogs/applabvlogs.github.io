@@ -64,17 +64,13 @@
         const manualButton = document.getElementById('manualButton');
         
         if (userId && secret) {
-            // For Expo Go, use the exp:// scheme with your local IP
-            // You need to replace 192.168.1.7 with your actual Expo Metro IP
             const expoDeepLink = `exp://192.168.1.7:8081/--/auth/reset-password?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
             
             console.log('Attempting to open:', expoDeepLink);
             statusEl.textContent = 'Opening app...';
             
-            // Try to open the app
             window.location.href = expoDeepLink;
             
-            // Show manual button after 2 seconds
             setTimeout(() => {
                 manualButton.style.display = 'block';
                 manualButton.onclick = () => {
