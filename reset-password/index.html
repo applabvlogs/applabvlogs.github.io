@@ -66,7 +66,7 @@
         if (userId && secret) {
             // For Expo Go, use the exp:// scheme with your local IP
             // You need to replace 192.168.1.7 with your actual Expo Metro IP
-            const expoDeepLink = `exp://192.168.1.7:8081/--/reset-password?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
+            const expoDeepLink = `exp://192.168.1.7:8081/--/auth/reset-password?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
             
             console.log('Attempting to open:', expoDeepLink);
             statusEl.textContent = 'Opening app...';
