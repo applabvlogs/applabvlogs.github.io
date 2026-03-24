@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to SeferInfo...</title>
+    <title>Redirecting to App...</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -50,7 +50,7 @@
 <body>
     <div class="container">
         <div class="spinner"></div>
-        <h2>Opening SeferInfo...</h2>
+        <h2>Opening App...</h2>
         <p id="status">Redirecting to app...</p>
         <a href="#" id="manualLink">If the app doesn't open, tap here</a>
         <div id="error" class="error" style="display:none;"></div>
@@ -73,7 +73,7 @@
             const deepLink = `seferinfo://reset-password?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
             
             console.log('Attempting to open:', deepLink);
-            statusEl.textContent = 'Opening SeferInfo app...';
+            statusEl.textContent = 'Opening App app...';
             
             // Try to open the app
             window.location.href = deepLink;
@@ -86,7 +86,7 @@
             setTimeout(() => {
                 if (document.hidden === false) {
                     errorEl.style.display = 'block';
-                    errorEl.innerHTML = 'Could not open the app automatically. Please make sure SeferInfo is installed, then tap the link above.';
+                    errorEl.innerHTML = 'Could not open the app automatically. Please make sure App is installed, then tap the link above.';
                     statusEl.textContent = 'Tap the link to open the app';
                 }
             }, 3000);
