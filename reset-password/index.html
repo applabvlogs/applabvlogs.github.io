@@ -1,19 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting to SeferInfo...</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: white;
+            text-decoration: underline;
+            margin-top: 20px;
+            display: inline-block;
+        }
+        .error {
+            background: rgba(255,0,0,0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Opening SeferInfo...</h2>
+        <p id="status">Redirecting to app...</p>
+        <a href="#" id="manualLink">If the app doesn't open, tap here</a>
+        <div id="error" class="error" style="display:none;"></div>
+    </div>
+
     <script>
         // Get parameters from URL
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('userId');
         const secret = urlParams.get('secret');
         
-        // Redirect to your app with the parameters
+        const statusEl = document.getElementById('status');
+        const errorEl = document.getElementById('error');
+        const manualLink = document.getElementById('manualLink');
+        
+        console.log('URL Params:', { userId, secret });
+        
         if (userId && secret) {
-            window.location.href = `seferinfo://reset-password?userId=${userId}&secret=${secret}`;
+            // Build the deep link URL
+            const deepLink = `seferinfo://reset-password?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
+            
+            console.log('Attempting to open:', deepLink);
+            statusEl.textContent = 'Opening SeferInfo app...';
+            
+            // Try to open the app
+            window.location.href = deepLink;
+            
+            // Set up manual fallback link
+            manualLink.href = deepLink;
+            manualLink.style.display = 'inline-block';
+            
+            // If app doesn't open after 3 seconds, show error
+            setTimeout(() => {
+                if (document.hidden === false) {
+                    errorEl.style.display = 'block';
+                    errorEl.innerHTML = 'Could not open the app automatically. Please make sure SeferInfo is installed, then tap the link above.';
+                    statusEl.textContent = 'Tap the link to open the app';
+                }
+            }, 3000);
+        } else {
+            errorEl.style.display = 'block';
+            errorEl.innerHTML = 'Invalid reset link. Missing userId or secret. Please request a new password reset from the app.';
+            statusEl.textContent = 'Invalid link';
+            manualLink.style.display = 'none';
         }
+        
+        // Also try to detect when app opens
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                console.log('App opened successfully!');
+            }
+        });
     </script>
-</head>
-<body>
-    <p>Redirecting to app...</p>
 </body>
 </html>
