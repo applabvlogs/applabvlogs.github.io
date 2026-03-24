@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        // Get parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('userId');
+        const secret = urlParams.get('secret');
+        
+        // Redirect to your app with the parameters
+        if (userId && secret) {
+            window.location.href = `seferinfo://reset-password?userId=${userId}&secret=${secret}`;
+        }
+    </script>
+</head>
+<body>
+    <p>Redirecting to app...</p>
+</body>
+</html>
